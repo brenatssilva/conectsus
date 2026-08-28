@@ -1,0 +1,14 @@
+default:
+  app:
+    nome: Qualidade dos dados da RNDS
+    subtitulo: Índice de Qualidade de Dados
+  dados:
+    raiz: "../dados_intermediarios_iqd_07082026/dados_intermediarios"
+    modelos:
+      ria_r: "ria_r/tb_ria_r_intermediario"
+      ra: "ra/tb_ra_intermediario"
+      rel: "rel/tb_rel_intermediario"
+  consultas:
+    top_cnes: 20
+    max_tabela: 200
+    max_barras_geo: 30

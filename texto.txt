@@ -1,0 +1,5 @@
+as letras da aba "visão geral" podem ser maiores.
+utilize a cor para o fundo: #fffffc
+Ao invés de verde, utilize tons de azul, para os botões de navegação utilize: #a8ceed, 
+Onde a cor verde forte é utilizada, troque por: #00114a
+retire a frase que está em cima dos mapas: "Para ativar o mapa são necessárias malhas IBGE (UF e município) e o relacionamento com co_municipio_ocorrencia (IBGE 6 dígitos). Esses arquivos não estão neste repositório."

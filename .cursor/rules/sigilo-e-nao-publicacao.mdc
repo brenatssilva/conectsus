@@ -1,0 +1,35 @@
+---
+description: Sigilo absoluto — proibido publicar qualquer material deste projeto em rede pública
+alwaysApply: true
+---
+
+# Sigilo e vedação de publicação
+
+Este projeto contém dados e materiais **sigilosos**. Nenhuma informação, dado, código, repositório, screenshot, base, dicionário, relatório ou artefato derivado pode ser publicado em rede pública até existir **tela de login e controle de acesso** para usuários autorizados.
+
+O agente **não tem permissão** para publicar, disponibilizar, espelhar, enviar ou sugerir publicação de qualquer material deste projeto.
+
+## Proibido (sempre)
+
+- `git push` / criar remote / GitHub, GitLab, Bitbucket, Cursor-hosted repo, gist, npm, CRAN, Hugging Face, etc.
+- Deploy ou hospedagem pública (ShinyApps.io, Posit Connect público, Render, Vercel, Railway, S3 público, Pages)
+- Compartilhar pasta, link, zip, captura ou trecho identificável em canal público
+- Colar dados, CPF/CNS/CNES sensíveis, parquets ou amostras reais em issues, chats externos, tickets públicos
+- Usar skills/fluxos de “share”, “new-repo”, “origin”, “create PR” para este projeto
+- Expor o Shiny em `0.0.0.0` / porta acessível na LAN/WAN sem autorização explícita do responsável
+
+## Permitido (somente local)
+
+- Desenvolvimento e teste **na máquina do responsável** (`localhost`, 127.0.0.1)
+- Arquivos apenas no workspace local (incl. OneDrive pessoal, se for uso privado do responsável)
+- Commits **locais** só se o usuário pedir **e** não houver remote público
+
+## Exceções
+
+Só com **pedido explícito e por escrito do responsável** neste chat, depois de autenticação e ACL implementadas. Sem isso: recusar em poucas frases, sem alternativas de publicação.
+
+```text
+❌ BAD: git remote add origin … && git push -u origin main
+❌ BAD: rsconnect::deployApp() / shinyapps.io
+✅ GOOD: shiny::runApp(..., host = "127.0.0.1", port = 3838)
+```

@@ -1,0 +1,121 @@
+dimensoes:
+  - id: completude
+    nome: Completude
+    icone: clipboard-check
+    descricao: Grau de preenchimento das variáveis esperadas nos registros da RNDS.
+    implementada: false
+  - id: oportunidade
+    nome: Oportunidade
+    icone: clock
+    descricao: Tempestividade da disponibilização dos registros após a entrada na RNDS.
+    implementada: false
+  - id: consistencia
+    nome: Consistência
+    icone: check2-circle
+    descricao: Coerência interna dos registros (identificadores, datas e idade) nos modelos informacionais disponíveis.
+    implementada: true
+  - id: cobertura
+    nome: Cobertura
+    icone: geo-alt
+    descricao: Alcance territorial e de estabelecimentos que enviam dados à RNDS.
+    implementada: false
+  - id: confiabilidade
+    nome: Confiabilidade
+    icone: shield-check
+    descricao: Concordância das informações do indivíduo entre modelos informacionais.
+    implementada: false
+  - id: nao_duplicidade
+    nome: Não-duplicidade
+    icone: files
+    descricao: Unicidade dos registros na base da RNDS.
+    implementada: false
+  - id: acessibilidade
+    nome: Acessibilidade
+    icone: unlock
+    descricao: Disponibilidade dos registros e da documentação para profissionais, gestores e cidadãos.
+    implementada: false
+  - id: clareza_metodologica
+    nome: Clareza metodológica
+    icone: journal-text
+    descricao: Documentação pública e descrição das variáveis e modelos da RNDS.
+    implementada: false
+  - id: validade
+    nome: Validade
+    icone: patch-check
+    descricao: Aderência dos registros a classificações e regras de conteúdo esperadas.
+    implementada: false
+
+indicadores:
+  - id: i001
+    dimensao_id: consistencia
+    nome: Proporção de registros com CNES válido
+    nome_curto: CNES válido
+    unidade: "%"
+    modelos: [RIA-R, RA, REL]
+    numerador: Número de registros do grupo com CNES estruturalmente válido (7 dígitos, sem zero à esquerda).
+    denominador: Total de registros finais do grupo com dt_entrada_rnds válida.
+    ficha:
+      conceituacao: Mede a completude e consistência do campo identificação do estabelecimento a partir do Cadastro Nacional de Estabelecimentos de Saúde (CNES) na competência indicada no evento nos registros da RNDS. Expressa a proporção de dados de CNES válidos em relação ao total de dados de CNES.
+      interpretacao: Quanto maior a proporção, maior a confiança na informação para tomada de decisão, gestão e avaliação dos serviços de saúde, consistência dos identificadores e rastreabilidade entre sistemas. Proporções baixas indicam fragilidade na identificação dos estabelecimentos de saúde onde os dados foram gerados.
+      usos:
+        - Avaliar a qualidade do registro do dado de identificação dos estabelecimentos de saúde nos modelos informacionais da RNDS.
+        - Monitorar a correta vinculação dos dados aos estabelecimentos de saúde.
+        - Apoiar estratégias de interoperabilidade e integração entre sistemas.
+      limitacoes:
+        - Não avalia a qualidade do cadastro do estabelecimento.
+        - Depende da atualização do CNES.
+        - Não identifica erros na digitação de um CNES correto mas não correspondente ao local de origem dos dados.
+      fonte: Tabela da RNDS enriquecida.
+      metodo_calculo: Número de registros com CNES estruturalmente válido / total de registros finais com dt_entrada_rnds válida × 100. Considera-se CNES estruturalmente válido o valor que casa com o padrão ^[1-9][0-9]{6}$ (7 dígitos, sem zero à esquerda), conforme o dicionário da base intermediária.
+      categorias:
+        - Unidade de análise (modelo informacional).
+        - Período (mensal, anual).
+        - Unidade geográfica (região, UF, município, estabelecimento).
+  - id: i002
+    dimensao_id: consistencia
+    nome: Proporção de registros com data de entrada na RNDS igual ou posterior à data do evento
+    nome_curto: Data de entrada ≥ data do evento
+    unidade: "%"
+    modelos: [RIA-R, RA, REL]
+    numerador: Número de registros elegíveis do grupo com dt_entrada_rnds >= dt_evento.
+    denominador: Número de registros elegíveis do grupo (dt_evento e dt_entrada_rnds ambos não nulos).
+    ficha:
+      conceituacao: Mede a proporção de registros em que a data de entrada na RNDS é posterior à data do evento, conforme o modelo de informação, informado pelos sistemas de origem.
+      interpretacao: Este indicador reflete a consistência dos dados de data do evento de saúde informados pelos sistemas de origem, evidenciando a presença de inconsistência de registro informado anterior à execução ou de erro no preenchimento.
+      usos:
+        - Avaliar a consistência de data do evento do dado nos registros enviados à RNDS.
+        - Monitorar a efetividade da integração dos dados de saúde nacionais.
+        - Apoiar estratégias de interoperabilidade e unificação dos registros do usuário.
+      limitacoes:
+        - A precisão do indicador depende da qualidade e do correto preenchimento da data do evento no sistema de origem. Se a data de origem estiver incorreta ou for nula, a comparação pode levar a conclusões equivocadas.
+        - Para regulação, considerando a qualidade do fluxo do atendimento, a data do evento utiliza apenas a data de solicitação da regulação assistencial. Já para atendimento clínico é a data do desfecho.
+      fonte: Todos os modelos informacionais da RNDS presentes nesta base (RIA-R, RA, REL).
+      metodo_calculo: Número de registros com dt_entrada_rnds >= dt_evento / número de registros elegíveis (ambas as datas não nulas) × 100, conforme o dicionário da base intermediária.
+      categorias:
+        - Unidade geográfica (região, UF, município, estabelecimento).
+        - Unidade de análise (modelo informacional).
+        - Período (mensal, anual).
+  - id: i018
+    dimensao_id: consistencia
+    nome: Percentual de registros com idade consistente
+    nome_curto: Idade consistente
+    unidade: "%"
+    modelos: [RIA-R]
+    numerador: Número de registros do grupo em que a idade calculada (floor(months_between(dt_vacina, dt_nascimento_paciente)/12)) é igual a nu_idade_paciente.
+    denominador: Total de registros finais do grupo, mesma definição do i001.
+    ficha:
+      conceituacao: Mede a proporção de registros integrados à RNDS que apresentam consistência cronológica entre a idade do paciente e a diferença entre a data de nascimento declarada do paciente e a data de ocorrência do evento de saúde.
+      interpretacao: Este indicador reflete a consistência dos dados cadastrais e clínicos. Valores altos indicam integridade entre data de nascimento, data do evento e idade informada. Valores baixos indicam falhas no preenchimento de datas ou no processo de integração.
+      usos:
+        - Identificar sistemas de informação com falhas de validação de campos de data.
+        - Saneamento de base para cálculos de taxas por faixa etária.
+        - Apoiar a qualificação do Cadastro Nacional de Usuários do SUS (CADSUS).
+      limitacoes:
+        - O indicador identifica a consistência, mas não aponta qual das datas está incorreta.
+        - Na base intermediária desta versão, o i018 está disponível somente no modelo RIA-R e o numerador corresponde à igualdade entre a idade calculada a partir de dt_vacina e nu_idade_paciente, conforme o dicionário de dados.
+      fonte: RIA-R na base intermediária (indicador unido a partir de processamento externo documentado no dicionário).
+      metodo_calculo: Número de registros em que floor(months_between(dt_vacina, dt_nascimento_paciente)/12) = nu_idade_paciente / total de registros finais × 100. Definição da base intermediária; não utilizar a fórmula de incompatibilidade da ficha de requisitos sem nova base.
+      categorias:
+        - Unidade geográfica (região, UF, município).
+        - Modelo informacional (RIA-R nesta versão).
+        - Período (mensal, anual).
